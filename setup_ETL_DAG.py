@@ -119,7 +119,7 @@ def copy_into_user_session_channel():
         raise
 
 with DAG(
-    dag_id = 'Create_tables_ETL_DAG',
+    dag_id = 'SessionToSnowflake',
     start_date = datetime(2024,10,2),
     catchup=False,
     tags=['ELT'],
@@ -128,6 +128,5 @@ with DAG(
 	cur = return_snowflake_conn()
 
 	# Define task dependencies
-	create_user_session_channel() >> create_session_timestamp() >> create_blob_stage()
-	create_blob_stage() >> copy_into_user_session_channel() >> copy_into_session_timestamp()
+	create_user_session_channel() >> create_session_timestamp() >> create_blob_stage() >> copy_into_user_session_channel() >> copy_into_session_timestamp()
 
